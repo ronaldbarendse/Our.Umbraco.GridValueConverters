@@ -1,0 +1,60 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Grid>
+@using Our.Umbraco.GridValueConverters.Models
+@using Our.Umbraco.GridValueConverters.Rendering
+
+@if (Model?.Sections != null)
+{
+	var oneColumn = Model.Sections.Count == 1;
+
+	<div class="umb-grid">
+		@if (oneColumn)
+		{
+			foreach (var section in Model.Sections)
+			{
+				<div class="grid-section">
+					@foreach (var row in section.Rows)
+					{
+						@RenderRow(row);
+					}
+				</div>
+			}
+		}
+		else
+		{
+			<div class="row clearfix">
+				@foreach (var section in Model.Sections)
+				{
+					<div class="grid-section">
+						<div class="col-md-@(section.Grid) column">
+							@foreach (var row in section.Rows)
+							{
+								@RenderRow(row);
+							}
+						</div>
+					</div>
+				}
+			</div>
+		}
+	</div>
+}
+
+@helper RenderRow(Grid.Row row)
+{
+	using (Html.BeginGridTag(row))
+	{
+		<div class="row clearfix">
+			@foreach (var area in row.Areas)
+			{
+				<div class="col-md-@area.Grid column">
+					@using (Html.BeginGridTag(area))
+					{
+						foreach (var control in area.Controls)
+						{
+							Html.RenderGridControl(control);
+						}
+					}
+				</div>
+			}
+		</div>
+	}
+}

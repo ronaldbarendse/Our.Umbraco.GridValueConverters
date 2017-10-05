@@ -1,0 +1,13 @@
+﻿@model Our.Umbraco.GridValueConverters.Default.Controls.MediaGridControl
+@{
+	var crop = Model.GetCrop();
+}
+@if (!String.IsNullOrEmpty(crop.Url))
+{
+	<img src="@crop.Url" width="@crop.Width" height="@crop.Height" alt="@Model.Value.AlternateText" />
+
+	if (!String.IsNullOrEmpty(Model.Value.Caption))
+	{
+		<p class="caption">@Model.Value.Caption</p>
+	}
+}

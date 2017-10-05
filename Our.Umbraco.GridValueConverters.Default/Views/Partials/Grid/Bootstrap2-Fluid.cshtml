@@ -1,0 +1,65 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Grid>
+@using Our.Umbraco.GridValueConverters.Models
+@using Our.Umbraco.GridValueConverters.Rendering
+
+@if (Model?.Sections != null)
+{
+	var oneColumn = Model.Sections.Count == 1;
+
+	<div class="umb-grid">
+		@if (oneColumn)
+		{
+			foreach (var section in Model.Sections)
+			{
+				<div class="grid-section">
+					@foreach (var row in section.Rows)
+					{
+						@RenderRow(row, true);
+					}
+				</div>
+			}
+		}
+		else
+		{
+			<div class="container-fluid">
+				<div class="row-fluid clearfix">
+					@foreach (var section in Model.Sections)
+					{
+						<div class="grid-section">
+							<div class="@("span" + section.Grid) column">
+								@foreach (var row in section.Rows)
+								{
+									@RenderRow(row, false);
+								}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		}
+	</div>
+}
+
+@helper RenderRow(Grid.Row row, bool singleColumn)
+{
+	using (Html.BeginGridTag(row))
+	{
+		using (Html.BeginTag("div", singleColumn, new { @class = "container-fluid" }))
+		{
+			<div class="row-fluid clearfix">
+				@foreach (var area in row.Areas)
+				{
+					<div class="@("span" + area.Grid) column">
+						@using (Html.BeginGridTag(area))
+						{
+							foreach (var control in area.Controls)
+							{
+								Html.RenderGridControl(control);
+							}
+						}
+					</div>
+				}
+			</div>
+		}
+	}
+}

@@ -1,0 +1,5 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Our.Umbraco.GridValueConverters.Default.Controls.MacroGridControl>
+@if (Model.Value != null)
+{
+    @Umbraco.RenderMacro(Model.Value.MacroAlias, Model.Value.MacroParameters)
+}

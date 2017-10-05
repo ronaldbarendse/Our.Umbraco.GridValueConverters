@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+		<Authors>Ronald Barendse</Authors>
+		<Description>Default Umbraco grid value converters</Description>
+		<PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/ronaldbarendse/Our.Umbraco.GridValueConverters</PackageProjectUrl>
+		<PackageTags>Umbraco</PackageTags>
+		<ContentTargetFolders>content</ContentTargetFolders>
+	</PropertyGroup>
+  <ItemGroup>
+    <None Remove="Views\Partials\Grid\Editors\Base.cshtml" />
+  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Web" />
+		<PackageReference Include="GitVersionTask" Version="4.0.0-beta0012">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="System.ValueTuple" Version="4.3" />
+		<PackageReference Include="UmbracoCms.Core" Version="7.7" />
+		<PackageReference Include="UmbracoPack" Version="0.1.0">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<ProjectReference Include="..\Our.Umbraco.GridValueConverters\Our.Umbraco.GridValueConverters.csproj" />
+	</ItemGroup>
+  <ItemGroup>
+		<Content Include="Views\Partials\Grid\Editors\Base.cshtml" />
+		<Content Include="Views\Partials\Grid\Editors\Embed.cshtml" />
+		<Content Include="Views\Partials\Grid\Editors\Macro.cshtml" />
+		<Content Include="Views\Partials\Grid\Editors\Media.cshtml" />
+		<Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
+		<Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
+		<Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
+		<Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
+		<Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
+		<Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
+	</ItemGroup>
+</Project>

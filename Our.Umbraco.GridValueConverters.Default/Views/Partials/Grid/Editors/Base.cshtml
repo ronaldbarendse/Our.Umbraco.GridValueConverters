@@ -1,0 +1,10 @@
+﻿@model Our.Umbraco.GridValueConverters.Models.Grid.IControl
+@using Our.Umbraco.GridValueConverters.Rendering
+@try
+{
+	Html.RenderGridControl(Model);
+}
+catch (Exception ex)
+{
+	<pre>@ex.ToString()</pre>
+}

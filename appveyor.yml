@@ -1,0 +1,26 @@
+﻿branches:
+  only:
+    - master
+
+image: Visual Studio 2017
+
+configuration: Release
+
+before_build:
+  - nuget restore
+
+build:
+  project: Our.Umbraco.GridValueConverters.sln
+
+after_build:
+  - cmd: msbuild -t:pack Our.Umbraco.GridValueConverters/Our.Umbraco.GridValueConverters.csproj
+  - cmd: msbuild -t:pack Our.Umbraco.GridValueConverters.Default/Our.Umbraco.GridValueConverters.Default.csproj
+
+artifacts:
+  - path: '**\*.nupkg'
+  - path: '**\*.zip'
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: QFYDzwPC5lFYJwvyrG9l1nXIx9QCdHj7t3RZACZjDSV83ZfdWVelDIDxD10WScbo
