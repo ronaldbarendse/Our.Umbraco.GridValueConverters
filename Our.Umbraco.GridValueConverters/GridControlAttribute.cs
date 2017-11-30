@@ -44,7 +44,7 @@ namespace Our.Umbraco.GridValueConverters
 
 			// Match on alias (case insensitive) or view (case insensitive and with or without ~/)
 			if ((!String.IsNullOrEmpty(this.EditorAlias) && this.EditorAlias.InvariantEquals(editor.Alias)) ||
-				(!String.IsNullOrEmpty(this.EditorView) && this.EditorView.EnsureStartsWith("~/").InvariantEquals(editor.View?.EnsureStartsWith("~/"))))
+				(!String.IsNullOrEmpty(this.EditorView) && this.EditorView.EnsureStartsWith("~").InvariantEquals(editor.View?.EnsureStartsWith("~"))))
 			{
 				return true;
 			}
