@@ -10,9 +10,6 @@
 		<ContentTargetFolders>content</ContentTargetFolders>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Remove="Views\Partials\Grid\Editors\Base.cshtml" />
-	</ItemGroup>
-	<ItemGroup>
 		<Reference Include="System.Web" />
 		<PackageReference Include="GitVersionTask" Version="4.0.0-beta0012">
 			<PrivateAssets>All</PrivateAssets>
@@ -35,5 +32,7 @@
 		<Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
 		<Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
 		<Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
+		<Content Include="Views\Web.config.install.xdt" />
+		<Content Include="Views\Web.config.uninstall.xdt" />
 	</ItemGroup>
 </Project>
