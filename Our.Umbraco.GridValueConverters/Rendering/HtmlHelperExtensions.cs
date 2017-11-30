@@ -12,6 +12,25 @@ namespace Our.Umbraco.GridValueConverters.Rendering
 	public static class HtmlHelperExtensions
 	{
 		/// <summary>
+		/// The default grid framework.
+		/// </summary>
+		private const string defaultGridFramework = "bootstrap3";
+
+		/// <summary>
+		/// Gets the grid HTML.
+		/// </summary>
+		/// <param name="htmlHelper">The HTML helper.</param>
+		/// <param name="grid">The grid.</param>
+		/// <param name="framework">The framework.</param>
+		/// <returns></returns>
+		public static MvcHtmlString GetGridHtml(this HtmlHelper htmlHelper, Grid grid, string framework = defaultGridFramework)
+		{
+			var view = "Grid/" + framework;
+
+			return htmlHelper.Partial(view, grid);
+		}
+
+		/// <summary>
 		/// Begins the tag.
 		/// </summary>
 		/// <param name="htmlHelper">The HTML helper.</param>
