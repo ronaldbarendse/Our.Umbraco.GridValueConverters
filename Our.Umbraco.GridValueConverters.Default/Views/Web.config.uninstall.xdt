@@ -1,0 +1,13 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+	<system.web.webPages.razor>
+		<pages>
+			<namespaces>
+				<add xdt:Transform="Remove" xdt:Locator="Match(namespace)" namespace="Our.Umbraco.GridValueConverters" />
+				<add xdt:Transform="Remove" xdt:Locator="Match(namespace)" namespace="Our.Umbraco.GridValueConverters.Models" />
+				<add xdt:Transform="Remove" xdt:Locator="Match(namespace)" namespace="Our.Umbraco.GridValueConverters.Rendering" />
+				<add xdt:Transform="Remove" xdt:Locator="Match(namespace)" namespace="Our.Umbraco.GridValueConverters.Default.Controls" />
+			</namespaces>
+		</pages>
+	</system.web.webPages.razor>
+</configuration>
