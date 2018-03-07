@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 
@@ -10,6 +11,16 @@ namespace Our.Umbraco.GridValueConverters.Default.Values
 	/// </summary>
 	public class ImageGridValue
 	{
+		#region Properties
+
+		/// <summary>
+		/// Gets the Umbraco context.
+		/// </summary>
+		/// <value>
+		/// The Umbraco context.
+		/// </value>
+		protected UmbracoContext UmbracoContext { get; }
+
 		/// <summary>
 		/// Gets or sets the focal point.
 		/// </summary>
@@ -38,6 +49,21 @@ namespace Our.Umbraco.GridValueConverters.Default.Values
 		public string Image { get; set; }
 
 		/// <summary>
+		/// Gets the image as <see cref="IPublishedContent"/> (from the media cache).
+		/// </summary>
+		/// <value>
+		/// The image content.
+		/// </value>
+		[JsonIgnore]
+		public IPublishedContent Content
+		{
+			get
+			{
+				return this.UmbracoContext.MediaCache.GetById(this.Id);
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets the media alternate text.
 		/// </summary>
 		/// <value>
@@ -45,6 +71,31 @@ namespace Our.Umbraco.GridValueConverters.Default.Values
 		/// </value>
 		[JsonProperty("altText")]
 		public string AlternateText { get; set; }
+
+		#endregion
+
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ImageGridValue" /> class.
+		/// </summary>
+		public ImageGridValue()
+			: this(UmbracoContext.Current)
+		{ }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ImageGridValue" /> class.
+		/// </summary>
+		/// <param name="umbracoContext">The Umbraco context.</param>
+		/// <exception cref="ArgumentNullException">umbracoContext</exception>
+		public ImageGridValue(UmbracoContext umbracoContext)
+		{
+			this.UmbracoContext = umbracoContext ?? throw new ArgumentNullException(nameof(umbracoContext));
+		}
+
+		#endregion
+
+		#region Methods
 
 		/// <summary>
 		/// Gets the image crop URL.
@@ -77,5 +128,7 @@ namespace Our.Umbraco.GridValueConverters.Default.Values
 
 			return src.GetCropUrl(cropDataSet, width, height, quality: quality, cacheBusterValue: cacheBusterValue, furtherOptions: furtherOptions, upScale: upScale);
 		}
+
+		#endregion
 	}
 }

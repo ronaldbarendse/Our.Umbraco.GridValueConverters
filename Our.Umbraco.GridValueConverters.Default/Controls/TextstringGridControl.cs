@@ -26,24 +26,26 @@ namespace Our.Umbraco.GridValueConverters.Default.Controls
 		{
 			// Be sure to HTML encode the value!
 			var value = HttpUtility.HtmlEncode(this.Value);
-
-			var config = this.Editor?.Config;
-			if (config != null)
+			if (!String.IsNullOrEmpty(value))
 			{
-				string markup = config.Markup, style = config.Style;
-				if (!String.IsNullOrEmpty(markup))
+				var config = this.Editor?.Config;
+				if (config != null)
 				{
-					// Just create a new instance of HtmlStringUtilities, since this method is only called once and we don't need UmbracoHelper
-					markup = markup.Replace("#value#", new HtmlStringUtilities().ReplaceLineBreaksForHtml(value));
-					markup = markup.Replace("#style#", style);
+					string markup = config.Markup, style = config.Style;
+					if (!String.IsNullOrEmpty(markup))
+					{
+						// Just create a new instance of HtmlStringUtilities, since this method is only called once and we don't need UmbracoHelper
+						markup = markup.Replace("#value#", new HtmlStringUtilities().ReplaceLineBreaksForHtml(value));
+						markup = markup.Replace("#style#", style);
 
-					return new HtmlString(markup);
-				}
-				else if (!String.IsNullOrEmpty(style))
-				{
-					markup = $"<div style=\"{style}\">{value}</div>";
+						return new HtmlString(markup);
+					}
+					else if (!String.IsNullOrEmpty(style))
+					{
+						markup = $"<div style=\"{style}\">{value}</div>";
 
-					return new HtmlString(markup);
+						return new HtmlString(markup);
+					}
 				}
 			}
 
