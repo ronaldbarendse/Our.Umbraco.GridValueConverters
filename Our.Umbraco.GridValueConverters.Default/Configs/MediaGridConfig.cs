@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using Newtonsoft.Json;
-using Our.Umbraco.GridValueConverters.Default.JsonConverters;
+using Our.Umbraco.GridValueConverters.JsonConverters;
 
 namespace Our.Umbraco.GridValueConverters.Default.Configs
 {

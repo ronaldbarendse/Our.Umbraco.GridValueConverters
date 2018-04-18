@@ -3,7 +3,7 @@ using System.Drawing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Our.Umbraco.GridValueConverters.Default.JsonConverters
+namespace Our.Umbraco.GridValueConverters.JsonConverters
 {
 	/// <summary>
 	/// A <see cref="JsonConverter" /> to read and write <see cref="Size" /> objects.
