@@ -4,7 +4,7 @@ using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 
-namespace Our.Umbraco.GridValueConverters.Default.Values
+namespace Our.Umbraco.GridValueConverters.Values
 {
 	/// <summary>
 	/// The image grid value.
