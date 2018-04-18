@@ -1,55 +1,36 @@
-﻿using System;
-using System.Web;
-using Our.Umbraco.GridValueConverters.Controls;
-using Our.Umbraco.GridValueConverters.Default.Configs;
-using Umbraco.Web;
+﻿using Our.Umbraco.GridValueConverters.Default.Configs;
+using Our.Umbraco.GridValueConverters.Default.Values;
+using Our.Umbraco.GridValueConverters.Models;
 
 namespace Our.Umbraco.GridValueConverters.Default.Controls
 {
 	/// <summary>
 	/// The textstring grid control.
 	/// </summary>
-	/// <seealso cref="Our.Umbraco.GridValueConverters.Controls.HtmlGridControl{Our.Umbraco.GridValueConverters.Default.Configs.TextstringGridConfig}" />
+	/// <seealso cref="Our.Umbraco.GridValueConverters.Models.Grid.Control{Our.Umbraco.GridValueConverters.Default.Values.TextstringGridValue, Our.Umbraco.GridValueConverters.Default.Configs.TextstringGridConfig}" />
 	[GridControl(EditorView = "textstring")]
-	public class TextstringGridControl : HtmlGridControl<TextstringGridConfig>
+	public class TextstringGridControl : Grid.Control<TextstringGridValue, TextstringGridConfig>
 	{
 		/// <summary>
-		/// Gets the HTML value.
+		/// Gets or sets the control value.
 		/// </summary>
-		/// <returns>
-		/// The HTML value.
-		/// </returns>
-		/// <remarks>
-		/// This method is only invoked once when the HTML value is needed and can be used to process the value.
-		/// </remarks>
-		protected override IHtmlString GetHtmlValue()
+		/// <value>
+		/// The control value.
+		/// </value>
+		public override TextstringGridValue Value
 		{
-			// Be sure to HTML encode the value!
-			var value = HttpUtility.HtmlEncode(this.Value);
-			if (!String.IsNullOrEmpty(value))
+			get
 			{
-				var config = this.Editor?.Config;
-				if (config != null)
+				var value = base.Value;
+				if (value != null)
 				{
-					string markup = config.Markup, style = config.Style;
-					if (!String.IsNullOrEmpty(markup))
-					{
-						// Just create a new instance of HtmlStringUtilities, since this method is only called once and we don't need UmbracoHelper
-						markup = markup.Replace("#value#", new HtmlStringUtilities().ReplaceLineBreaksForHtml(value));
-						markup = markup.Replace("#style#", style);
-
-						return new HtmlString(markup);
-					}
-					else if (!String.IsNullOrEmpty(style))
-					{
-						markup = $"<div style=\"{style}\">{value}</div>";
-
-						return new HtmlString(markup);
-					}
+					// Inject config to value
+					value.Config = this.Editor?.Config;
 				}
-			}
 
-			return new HtmlString(value);
+				return value;
+			}
+			set => base.Value = value;
 		}
 	}
 }

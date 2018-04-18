@@ -22,6 +22,7 @@ namespace Our.Umbraco.GridValueConverters.Models
 			/// <value>
 			/// The control value.
 			/// </value>
+			[JsonConverter(typeof(HtmlGridValueConverter))]
 			[JsonProperty("value")]
 			public object Value { get; set; }
 
@@ -93,7 +94,9 @@ namespace Our.Umbraco.GridValueConverters.Models
 			/// </remarks>
 			[EditorBrowsable(EditorBrowsableState.Never)]
 			[JsonIgnore]
+#pragma warning disable IDE1006 // Naming Styles
 			public JToken value => JToken.FromObject(this.Value);
+#pragma warning restore IDE1006 // Naming Styles
 
 			/// <summary>
 			/// Gets the editor.
@@ -106,7 +109,9 @@ namespace Our.Umbraco.GridValueConverters.Models
 			/// </remarks>
 			[EditorBrowsable(EditorBrowsableState.Never)]
 			[JsonIgnore]
+#pragma warning disable IDE1006 // Naming Styles
 			public JToken editor => JToken.FromObject(this.Editor);
+#pragma warning restore IDE1006 // Naming Styles
 
 			#endregion
 		}
@@ -124,6 +129,7 @@ namespace Our.Umbraco.GridValueConverters.Models
 			/// <value>
 			/// The control value.
 			/// </value>
+			[JsonConverter(typeof(HtmlGridValueConverter))]
 			[JsonProperty("value")]
 			public virtual new TValue Value
 			{
