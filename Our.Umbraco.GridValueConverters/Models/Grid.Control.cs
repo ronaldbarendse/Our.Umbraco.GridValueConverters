@@ -22,7 +22,6 @@ namespace Our.Umbraco.GridValueConverters.Models
 			/// <value>
 			/// The control value.
 			/// </value>
-			[JsonConverter(typeof(HtmlGridValueConverter))]
 			[JsonProperty("value")]
 			public object Value { get; set; }
 
@@ -129,7 +128,6 @@ namespace Our.Umbraco.GridValueConverters.Models
 			/// <value>
 			/// The control value.
 			/// </value>
-			[JsonConverter(typeof(HtmlGridValueConverter))]
 			[JsonProperty("value")]
 			public virtual new TValue Value
 			{
