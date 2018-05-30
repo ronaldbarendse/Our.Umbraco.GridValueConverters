@@ -27,7 +27,8 @@ deploy:
       secure: QFYDzwPC5lFYJwvyrG9l1nXIx9QCdHj7t3RZACZjDSV83ZfdWVelDIDxD10WScbo
 
   - provider: GitHub
+    release: $(APPVEYOR_REPO_TAG_NAME)
     description: $(APPVEYOR_REPO_COMMIT_MESSAGE)
     auth_token:
       secure: npaO3pTYpfI/kiFYXcm8pAfIwXEv4G4p84Dfh7eICwVLqH8EoqEPuVnLqLZaMG0O
-    artifact: '**\*.zip'
+    artifact: /.*\.zip/
