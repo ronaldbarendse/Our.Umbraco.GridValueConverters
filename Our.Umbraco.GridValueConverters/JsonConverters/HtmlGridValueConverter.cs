@@ -20,7 +20,7 @@ namespace Our.Umbraco.GridValueConverters.JsonConverters
 		/// </returns>
 		public override bool CanConvert(Type objectType)
 		{
-			return objectType.Inherits<HtmlGridValue>();
+			return !objectType.IsAbstract && objectType.Inherits<HtmlGridValue>();
 		}
 
 		/// <summary>
@@ -35,11 +35,18 @@ namespace Our.Umbraco.GridValueConverters.JsonConverters
 		/// </returns>
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			if (Activator.CreateInstance(objectType) is HtmlGridValue htmlGridValue)
+			try
 			{
-				htmlGridValue.Html = reader.Value as string;
+				if (Activator.CreateInstance(objectType) is HtmlGridValue htmlGridValue)
+				{
+					htmlGridValue.Html = reader.Value as string;
 
-				return htmlGridValue;
+					return htmlGridValue;
+				}
+			}
+			catch (MissingMethodException ex)
+			{
+				throw new NotImplementedException($"The type {objectType.FullName} implementing HtmlGridValue does not provide a default constructor.", ex);
 			}
 
 			return null;
