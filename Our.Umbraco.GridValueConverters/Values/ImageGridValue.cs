@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Newtonsoft.Json;
 using Umbraco.Core.Models;
 using Umbraco.Web;
@@ -11,6 +12,15 @@ namespace Our.Umbraco.GridValueConverters.Values
 	/// </summary>
 	public class ImageGridValue
 	{
+		#region Fields
+
+		/// <summary>
+		/// The content.
+		/// </summary>
+		private readonly Lazy<IPublishedContent> content;
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
@@ -55,13 +65,7 @@ namespace Our.Umbraco.GridValueConverters.Values
 		/// The image content.
 		/// </value>
 		[JsonIgnore]
-		public IPublishedContent Content
-		{
-			get
-			{
-				return this.UmbracoContext.MediaCache.GetById(this.Id);
-			}
-		}
+		public IPublishedContent Content => this.content.Value;
 
 		/// <summary>
 		/// Gets or sets the media alternate text.
@@ -91,6 +95,10 @@ namespace Our.Umbraco.GridValueConverters.Values
 		public ImageGridValue(UmbracoContext umbracoContext)
 		{
 			this.UmbracoContext = umbracoContext ?? throw new ArgumentNullException(nameof(umbracoContext));
+			this.content = new Lazy<IPublishedContent>(() =>
+			{
+				return this.UmbracoContext.MediaCache.GetById(this.Id);
+			});
 		}
 
 		#endregion
@@ -98,21 +106,32 @@ namespace Our.Umbraco.GridValueConverters.Values
 		#region Methods
 
 		/// <summary>
-		/// Gets the image crop URL.
+		/// Gets the crop data set (with the focal point and size).
 		/// </summary>
-		/// <param name="width">The width of the output image.</param>
-		/// <param name="height">The height of the output image.</param>
-		/// <param name="quality">Quality percentage of the output image.</param>
-		/// <param name="cacheBusterValue">Add a serialised date of the last edit of the item to ensure client cache refresh when updated.</param>
-		/// <param name="furtherOptions">These are any query string parameters (formatted as query strings) that ImageProcessor supports. For example:
-		/// <example><![CDATA[
-		/// furtherOptions: "&bgcolor=fff"
-		/// ]]></example></param>
-		/// <param name="upScale">If the image should be upscaled to requested dimensions.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
 		/// <returns>
-		/// The image crop URL.
+		/// The crop data set.
 		/// </returns>
-		public string GetCropUrl(int? width = null, int? height = null, int? quality = null, string cacheBusterValue = null, string furtherOptions = null, bool upScale = true)
+		public ImageCropDataSet GetCropDataSet(int? width = null, int? height = null)
+		{
+			Size? size = null;
+			if (width.HasValue && height.HasValue)
+			{
+				size = new Size(width.Value, height.Value);
+			}
+
+			return this.GetCropDataSet(size);
+		}
+
+		/// <summary>
+		/// Gets the crop data set (with the focal point and size).
+		/// </summary>
+		/// <param name="size">The size (used as crop dimentions).</param>
+		/// <returns>
+		/// The crop data set.
+		/// </returns>
+		public ImageCropDataSet GetCropDataSet(Size? size = null)
 		{
 			var src = this.Image;
 			if (String.IsNullOrEmpty(src))
@@ -120,13 +139,25 @@ namespace Our.Umbraco.GridValueConverters.Values
 				return null;
 			}
 
-			var cropDataSet = new ImageCropDataSet()
+			var cropDataSet = new ImageCropDataSet
 			{
 				Src = src,
 				FocalPoint = this.FocalPoint
 			};
 
-			return src.GetCropUrl(cropDataSet, width, height, quality: quality, cacheBusterValue: cacheBusterValue, furtherOptions: furtherOptions, upScale: upScale);
+			if (size.HasValue)
+			{
+				cropDataSet.Crops = new []
+				{
+					new ImageCropData
+					{
+						Width = size.Value.Width,
+						Height = size.Value.Height
+					}
+				};
+			}
+
+			return cropDataSet;
 		}
 
 		#endregion
